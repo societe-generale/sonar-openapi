@@ -17,15 +17,10 @@
     <dependency>
       <groupId>com.societegenerale.sonar.sslr</groupId>
       <artifactId>sslr-yaml-parser</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.sonarsource.sslr</groupId>
-      <artifactId>sslr-xpath</artifactId>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
