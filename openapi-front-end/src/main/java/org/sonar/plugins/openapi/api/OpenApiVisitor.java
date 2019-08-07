@@ -44,6 +44,8 @@ public class OpenApiVisitor {
 
   /**
    * Called before visiting a node. If the method returns {@code true}, the visitor method is not invoked.
+   * @param node the node being visited
+   * @return {@code true} to skip the node
    */
   protected boolean isSkipped(JsonNode node) {
     return false;
@@ -59,31 +61,31 @@ public class OpenApiVisitor {
 
   /**
    * Called after the visitor is done exploring the AST hierarchy.
-   * @param root the AST that has been visited
+   * @param node the AST that has been visited
    */
   protected void leaveFile(JsonNode node) {
     // empty default implementation
   }
 
   /**
-   * Called when then visitor enters a node matching {@link #subscribedKinds()}, before visiting its children or tokens.
-   * @param root the node to visit
+   * Called when then visitor enters a node matching {@link #isSubscribed(AstNodeType)}, before visiting its children or tokens.
+   * @param node the node to visit
    */
   protected void visitNode(JsonNode node) {
     // empty default implementation
   }
 
   /**
-   * Called when then visitor is done visiting the children of a node matching {@link #subscribedKinds()}.
-   * @param root the node that has been visited
+   * Called when then visitor is done visiting the children of a node matching {@link #isSubscribed(AstNodeType)}.
+   * @param node the node that has been visited
    */
   protected void leaveNode(JsonNode node) {
     // empty default implementation
   }
 
   /**
-   * Called after visiting a terminal node (a node without children). Always called, even if the node doesn't match {@link #subscribedKinds()}.
-   * @param root the node's token
+   * Called after visiting a terminal node (a node without children). Always called, even if the node doesn't match {@link #isSubscribed(AstNodeType)}.
+   * @param token the node's token
    */
   protected void visitToken(Token token) {
     // empty default implementation
@@ -103,6 +105,10 @@ public class OpenApiVisitor {
     }
   }
 
+  /**
+   * Visit the AST node.
+   * @param node the node to visit
+   */
   public void scanNode(JsonNode node) {
     boolean isSubscribedType = isSubscribed(node.getType());
     boolean isSkipped = isSkipped(node);

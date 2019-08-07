@@ -24,9 +24,18 @@ import java.util.*;
 import org.sonar.check.Rule;
 import org.sonar.sslr.yaml.grammar.JsonNode;
 
+/**
+ * Base class for verification rules.
+ */
 public class OpenApiCheck extends OpenApiVisitor {
   private Set<PreciseIssue> issues = new LinkedHashSet<>();
 
+  /**
+   * Scan the file provided in the context. If no file is provided, does nothing. This method clears the previous state
+   * at the beginning of its execution.
+   * @param context the analysis context
+   * @return the list of collected issues
+   */
   public List<PreciseIssue> scanFileForIssues(OpenApiVisitorContext context) {
     issues.clear();
     scanFile(context);
@@ -35,9 +44,10 @@ public class OpenApiCheck extends OpenApiVisitor {
 
   /**
    * The kind of nodes the visitor is interested in. Override and return a non-empty set if you want to be notified
-   * on {@link #visitNode(AstNode)} and {@link #leaveNode(AstNode)}.
+   * on {@link #visitNode(JsonNode)} and {@link #leaveNode(JsonNode)}.
    * <p>
    * By default, returns an empty set.
+   * @return the list of node types to consider in the analysis
    */
   public Set<AstNodeType> subscribedKinds() {
     return Collections.emptySet();

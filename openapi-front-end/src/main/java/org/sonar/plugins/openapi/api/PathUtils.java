@@ -48,9 +48,11 @@ public class PathUtils {
   /**
    * A resource path is a path that does not end with a variable.
    * Examples:
+   * <ul>
    * <li>{@code /some/parrots/{parrotId}} is not resource</li>
    * <li>{@code /some/parrots/{parrotId}} is not a resource</li>
    * <li>{@code /some/parrots/{parrotId}/head-color} is a resource</li>
+   * </ul>
    * @param path the path to examine
    * @return true if the path is a resource path
    */
