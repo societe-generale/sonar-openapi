@@ -28,7 +28,6 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
 import org.sonar.plugins.openapi.api.IssueLocation;
 import org.sonar.plugins.openapi.api.OpenApiVisitorContext;
-import org.sonar.sslr.yaml.snakeyaml.parser.Tokens;
 
 /**
  * Feeds the Sonar CPD algorithm (for duplication detection) with tokens to analyze.

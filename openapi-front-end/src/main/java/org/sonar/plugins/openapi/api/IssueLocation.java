@@ -30,6 +30,7 @@ public abstract class IssueLocation {
   public static final int UNDEFINED_OFFSET = -1;
 
   public static final int UNDEFINED_LINE = 0;
+  public static final String EMPTY_POINTER = "";
 
   private String message;
 
@@ -68,14 +69,14 @@ public abstract class IssueLocation {
 
   @Override
   public final boolean equals(Object o){
-    if (o != null && o instanceof IssueLocation) {
+    if (o instanceof IssueLocation) {
       IssueLocation o1 = (IssueLocation) o;
       boolean equals =  o1.startLine() == this.startLine() &&
         o1.endLine() == this.endLine() &&
         o1.endLineOffset() == this.endLineOffset() &&
         o1.startLineOffset() == this.startLineOffset();
       if (this.message != null){
-        equals &= o1.message().equals(this.message());
+        equals &= this.message.equals(o1.message());
       }else{
         equals &= (o1.message() == null);
       }
@@ -94,7 +95,7 @@ public abstract class IssueLocation {
   }
 
   public String pointer() {
-    return "";
+    return EMPTY_POINTER;
   }
 
 

@@ -32,7 +32,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.sonar.check.Rule;
 import org.sonar.plugins.openapi.api.OpenApiCheck;
-import org.sonar.plugins.openapi.api.PreciseIssue;
 import org.sonar.plugins.openapi.api.v2.OpenApi2Grammar;
 import org.sonar.plugins.openapi.api.v3.OpenApi3Grammar;
 import org.sonar.sslr.yaml.grammar.JsonNode;

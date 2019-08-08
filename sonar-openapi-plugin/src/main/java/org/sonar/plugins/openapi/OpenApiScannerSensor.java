@@ -19,25 +19,24 @@
  */
 package org.sonar.plugins.openapi;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.batch.sensor.error.AnalysisError;
-import org.sonar.api.utils.log.*;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.openapi.OpenApiAnalyzer;
 import org.sonar.openapi.OpenApiChecks;
 import org.sonar.openapi.checks.CheckList;
 import org.sonar.plugins.openapi.api.OpenApiCustomRuleRepository;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class OpenApiScannerSensor implements Sensor {
   public static final String V2_PATH_KEY = "sonar.openapi.path.v2";

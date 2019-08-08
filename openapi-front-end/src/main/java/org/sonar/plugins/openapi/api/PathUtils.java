@@ -29,6 +29,10 @@ public class PathUtils {
     return fragment.startsWith("{") && fragment.endsWith("}");
   }
 
+  private PathUtils() {
+    // Hidden utility type constructor
+  }
+
   public static boolean checkPath(String path, Predicate<String> segmentChecker) {
     for (String fragment : path.split("/")) {
       if (fragment.isEmpty() || isVariable(fragment)) {
@@ -61,10 +65,7 @@ public class PathUtils {
     if (fragments.length == 0) {
       return true;
     }
-    if (isVariable(fragments[fragments.length - 1])) {
-      return false;
-    }
-    return true;
+    return !isVariable(fragments[fragments.length - 1]);
   }
 
   public static String terminalSegment(String path) {

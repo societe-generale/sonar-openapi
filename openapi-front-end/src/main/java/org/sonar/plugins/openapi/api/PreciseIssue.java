@@ -65,7 +65,7 @@ public class PreciseIssue {
 
   @Override
   public boolean equals(Object o){
-    if (o != null && o instanceof PreciseIssue){
+    if (o instanceof PreciseIssue){
       PreciseIssue oCasted = (PreciseIssue) o;
       boolean equals = oCasted.cost == this.cost;
       if (this.primaryLocation != null){

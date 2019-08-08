@@ -19,17 +19,13 @@
  */
 package org.sonar.plugins.openapi.api;
 
-import com.sonar.sslr.api.RecognitionException;
-import org.sonar.openapi.OpenApiConfiguration;
-import org.sonar.openapi.parser.OpenApiParser;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import org.sonar.openapi.OpenApiConfiguration;
+import org.sonar.openapi.parser.OpenApiParser;
 import org.sonar.sslr.yaml.grammar.JsonNode;
-import org.sonar.sslr.yaml.grammar.ValidationException;
-import org.sonar.sslr.yaml.grammar.ValidationIssue;
 import org.sonar.sslr.yaml.grammar.YamlParser;
 
 public class TestOpenApiVisitorRunner {

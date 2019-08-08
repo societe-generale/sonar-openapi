@@ -22,6 +22,7 @@ package org.sonar.plugins.openapi.api.v2;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.yaml.grammar.YamlGrammarBuilder;
 
+@java.lang.SuppressWarnings("squid:S1192") // Voluntarily ignoring string constants redefinitions in this file
 public enum OpenApi2Grammar implements GrammarRuleKey {
   ROOT,
   INFO,
@@ -59,6 +60,8 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
   SECURITY_DEFINITIONS,
   DESCRIPTION;
 
+  private static final String EXTENSION_PATTERN = "^x-.*";
+
   public static YamlGrammarBuilder create() {
     YamlGrammarBuilder b = new YamlGrammarBuilder();
     b.setRootRule(ROOT);
@@ -69,8 +72,8 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("host", b.string()),
       b.property("basePath", b.string()),
       b.property("schemes", b.array(b.firstOf("http", "https", "ws", "wss"))),
-      b.property("consumes", b.array(b.string())), // TODO - mime type format validation
-      b.property("produces", b.array(b.string())), // TODO - mime type format validation
+      b.property("consumes", b.array(b.string())),
+      b.property("produces", b.array(b.string())),
       b.mandatoryProperty("paths", PATHS),
       b.property("definitions", DEFINITIONS),
       b.property("parameters", PARAMETERS),
@@ -79,7 +82,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("security", b.array(SECURITY_REQUIREMENT)),
       b.property("tags", b.array(TAG)),
       b.property("externalDocs", EXTERNAL_DOC),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(DEFINITIONS).is(b.object(b.patternProperty(".*", SCHEMA)));
     b.rule(PARAMETERS).is(b.object(b.patternProperty(".*", PARAMETER)));
     b.rule(RESPONSES_DEFINITIONS).is(b.object(b.patternProperty(".*", RESPONSE)));
@@ -88,9 +91,9 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
     b.rule(REF).is(b.object(
       b.mandatoryProperty("$ref", b.string())));
     b.rule(EXTERNAL_DOC).is(b.object(
-      b.mandatoryProperty("url", b.string()), // TODO - URL format validation
+      b.mandatoryProperty("url", b.string()),
       b.property("description", DESCRIPTION),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
 
     b.rule(DESCRIPTION).is(b.string()).skip();
     buildInfo(b);
@@ -109,7 +112,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.mandatoryProperty("name", b.string()),
       b.property("description", DESCRIPTION),
       b.property("externalDocs", EXTERNAL_DOC),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
   }
 
   private static void buildSecurityDefinitions(YamlGrammarBuilder b) {
@@ -120,24 +123,24 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
     b.rule(BASIC_SECURITY_SCHEME).is(b.object(
       b.discriminant("type","basic"),
       b.property("description", DESCRIPTION),
-      b.patternProperty("^x-.*", b.anything()))).skip();
+      b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
     b.rule(API_KEY_SECURITY_SCHEME).is(b.object(
       b.discriminant("type", "apiKey"),
       b.property("description", DESCRIPTION),
       b.mandatoryProperty("name", b.string()),
       b.mandatoryProperty("in", b.firstOf("query", "header")),
-      b.patternProperty("^x-.*", b.anything()))).skip();
+      b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
     b.rule(OAUTH2_SECURITY_SCHEME).is(b.object(
       b.discriminant("type", "oauth2"),
       b.property("description", DESCRIPTION),
       b.mandatoryProperty("flow", b.firstOf("implicit", "password", "application", "accessCode")),
-      b.property("authorizationUrl", b.string()), // TODO - URL format validation
-      b.property("tokenUrl", b.string()), // TODO - URL format validation
+      b.property("authorizationUrl", b.string()),
+      b.property("tokenUrl", b.string()),
       b.mandatoryProperty("scopes", SCOPES),
-      b.patternProperty("^x-.*", b.anything()))).skip();
+      b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
     b.rule(SCOPES).is(b.object(
       b.patternProperty("^[^x]{2}.*", b.string()),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(SECURITY_REQUIREMENT).is(b.object(
       b.patternProperty(".*", b.array(b.string()))));
   }
@@ -146,13 +149,13 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
     b.rule(RESPONSES).is(b.object(
       b.property("default", b.firstOf(RESPONSE, REF)),
       b.patternProperty("^[0-9xX]+", b.firstOf(RESPONSE, REF)),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(RESPONSE).is(b.object(
       b.mandatoryProperty("description", DESCRIPTION),
       b.property("schema", SCHEMA),
       b.property("headers", b.object(b.patternProperty(".*", HEADER))),
       b.property("example", EXAMPLE),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(HEADER).is(b.object(
       b.property("description", DESCRIPTION),
       b.mandatoryProperty("type", b.firstOf("string", "number", "integer", "boolean", "array")),
@@ -172,7 +175,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("uniqueItems", b.bool()),
       b.property("enum", b.array(b.anything())),
       b.property("multipleOf", b.firstOf(b.integer(), b.floating())),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(EXAMPLE).is(b.object(
       b.patternProperty("^[a-zA-Z]+/[a-zA-Z0-9-.]+(; [a-zA-Z0-9]+=[a-zA-Z0-9]+)?", b.anything())));
   }
@@ -186,7 +189,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("description", DESCRIPTION),
       b.property("required", b.bool()),
       b.mandatoryProperty("schema", SCHEMA),
-      b.patternProperty("^x-.*", b.anything()))).skip();
+      b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
 
     b.rule(OTHER_PARAM).is(b.object(
       b.mandatoryProperty("name", b.string()),
@@ -211,7 +214,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("uniqueItems", b.bool()),
       b.property("enum", b.array(b.anything())),
       b.property("multipleOf", b.firstOf(b.integer(), b.floating())),
-      b.patternProperty("^x-.*", b.anything()))).skip();
+      b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
     b.rule(ITEMS).is(b.object(
       b.mandatoryProperty("type", b.firstOf("string", "number", "integer", "boolean", "array")),
       b.property("format", b.string()),
@@ -230,7 +233,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("uniqueItems", b.bool()),
       b.property("enum", b.array(b.anything())),
       b.property("multipleOf", b.firstOf(b.integer(), b.floating())),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
   }
 
   private static void buildDefinitions(YamlGrammarBuilder b) {
@@ -267,14 +270,14 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("xml", XML),
       b.property("externalDocs", EXTERNAL_DOC),
       b.property("example", b.anything()),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(XML).is(b.object(
       b.property("name", b.string()),
       b.property("namespace", b.string()),
       b.property("prefix", b.string()),
       b.property("attribute", b.bool()),
       b.property("wrapped", b.bool()),
-      b.patternProperty("^x-.*", b.anything())
+      b.patternProperty(EXTENSION_PATTERN, b.anything())
 
     ));
 
@@ -283,7 +286,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
   private static void buildPaths(YamlGrammarBuilder b) {
     b.rule(PATHS).is(b.object(
       b.patternProperty("^/.*", PATH),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(PATH).is(b.object(
       b.property("$ref", b.string()),
       b.property("get", OPERATION),
@@ -294,21 +297,21 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("head", OPERATION),
       b.property("patch", OPERATION),
       b.property("parameters", b.array(b.firstOf(REF, PARAMETER))),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
     b.rule(OPERATION).is(b.object(
       b.property("tags", b.array(b.string())),
       b.property("summary", b.string()),
       b.property("description", DESCRIPTION),
       b.property("externalDocs", EXTERNAL_DOC),
       b.property("operationId", b.string()),
-      b.property("consumes", b.array(b.string())), // TODO - mime type format validation
-      b.property("produces", b.array(b.string())), // TODO - mime type format validation
+      b.property("consumes", b.array(b.string())),
+      b.property("produces", b.array(b.string())),
       b.property("parameters", b.array(b.firstOf(REF, PARAMETER))),
       b.mandatoryProperty("responses", RESPONSES),
       b.property("schemes", b.array(b.string())),
       b.property("deprecated", b.bool()),
       b.property("security", b.array(SECURITY_REQUIREMENT)),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
   }
 
   private static void buildInfo(YamlGrammarBuilder b) {
@@ -319,17 +322,17 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("termsOfService", b.string()),
       b.property("contact", CONTACT),
       b.property("license", LICENSE),
-      b.patternProperty("^x-.*", b.anything())));
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
 
     b.rule(CONTACT).is(b.object(
       b.property("name", b.string()),
-      b.property("url", b.string()), // TODO - validate URL format
-      b.property("email", b.string()), // TODO - validate email format
-      b.patternProperty("^x-.*", b.anything())));
+      b.property("url", b.string()),
+      b.property("email", b.string()),
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
 
     b.rule(LICENSE).is(b.object(
       b.mandatoryProperty("name", b.string()),
-      b.property("url", b.string()), // TODO - validate URL format
-      b.patternProperty("^x-.*", b.anything())));
+      b.property("url", b.string()),
+      b.patternProperty(EXTENSION_PATTERN, b.anything())));
   }
 }

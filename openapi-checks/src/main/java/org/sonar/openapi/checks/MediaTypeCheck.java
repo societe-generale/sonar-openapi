@@ -34,8 +34,8 @@ import org.sonar.sslr.yaml.grammar.JsonNode;
 @Rule(key = MediaTypeCheck.CHECK_KEY)
 public class MediaTypeCheck extends OpenApiCheck {
   protected static final String CHECK_KEY = "MediaType";
-  protected static final String MESSAGE_v2 = "Declared mime type should conform to RFC6838.";
-  protected static final String MESSAGE_v3 = "Declared media type range should conform to RFC7231.";
+  protected static final String MESSAGE_V2 = "Declared mime type should conform to RFC6838.";
+  protected static final String MESSAGE_V3 = "Declared media type range should conform to RFC7231.";
 
   @VisibleForTesting
   static final Pattern MIME_TYPE_PATTERN = Pattern.compile("[a-zA-Z.0-9][a-zA-Z.0-9!#$&-_^+]+/[a-zA-Z.0-9][a-zA-Z.0-9!#$&-_^+]+(; charset=[a-zA-Z0-9-_]+)?");
@@ -64,7 +64,7 @@ public class MediaTypeCheck extends OpenApiCheck {
   private void verifyMimeTypeArray(JsonNode node) {
     for (JsonNode element : node.elements()) {
       if (!MIME_TYPE_PATTERN.matcher(element.getTokenValue()).matches()) {
-        addIssue(MESSAGE_v2, element);
+        addIssue(MESSAGE_V2, element);
       }
     }
   }
@@ -84,7 +84,7 @@ public class MediaTypeCheck extends OpenApiCheck {
       JsonNode keyNode = property.key();
       String key = keyNode.getTokenValue();
       if (!MIME_TYPE_PATTERN.matcher(key).matches()) {
-        addIssue(MESSAGE_v2, keyNode);
+        addIssue(MESSAGE_V2, keyNode);
       }
     }
   }
@@ -95,7 +95,7 @@ public class MediaTypeCheck extends OpenApiCheck {
       JsonNode keyNode = property.key();
       String key = keyNode.getTokenValue();
       if (!MEDIA_RANGE_PATTERN.matcher(key).matches()) {
-        addIssue(MESSAGE_v3, keyNode);
+        addIssue(MESSAGE_V3, keyNode);
       }
     }
   }

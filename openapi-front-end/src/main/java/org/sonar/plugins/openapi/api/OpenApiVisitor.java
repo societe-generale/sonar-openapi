@@ -21,10 +21,7 @@ package org.sonar.plugins.openapi.api;
 
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Token;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import org.sonar.sslr.yaml.grammar.JsonNode;
 
 /**
@@ -38,6 +35,11 @@ public class OpenApiVisitor {
     return context;
   }
 
+  /**
+   * Called before visiting a node. Gives a chance to decide if this node type interests the visitor.
+   * @param nodeType the type of node that will be visited
+   * @return {@code true} to proceed with nodes of this type
+   */
   protected boolean isSubscribed(AstNodeType nodeType) {
     return false;
   }

@@ -20,8 +20,6 @@
 package org.sonar.openapi.metrics;
 
 import com.sonar.sslr.api.AstNode;
-import java.util.ArrayList;
-import java.util.List;
 import org.sonar.plugins.openapi.api.OpenApiVisitorContext;
 import org.sonar.plugins.openapi.api.v2.OpenApi2Grammar;
 import org.sonar.plugins.openapi.api.v3.OpenApi3Grammar;

@@ -61,9 +61,9 @@ public abstract class ResourceCheck extends OpenApiCheck {
 
   protected abstract void visitResource(JsonNode node);
 
-  private Set<String> extractResourcePaths(List<String> paths) {
+  private static Set<String> extractResourcePaths(List<String> paths) {
     Collections.sort(paths);
-    Set<String> resourcePaths = new HashSet<>();
+    Set<String> extractedPaths = new HashSet<>();
     for (int i = 0; i < paths.size(); ++i) {
       String path = trimTrailingSlash(paths.get(i));
       String[] fragments = path.split("/");
@@ -71,16 +71,16 @@ public abstract class ResourceCheck extends OpenApiCheck {
         continue;
       }
       if (fragments.length > 2 && !isVariable(fragments[fragments.length - 2])) {
-        resourcePaths.add(path);
+        extractedPaths.add(path);
       } else if (i < paths.size() - 1) {
         // Special case: paths in the form of /toto/{titi}/tutu are considered resources only if there's another path
         // with a variable right after it
         String childPath = trimTrailingSlash(paths.get(i + 1));
         if (childPath.startsWith(path) && isVariable(terminalSegment(childPath))) {
-          resourcePaths.add(path);
+          extractedPaths.add(path);
         }
       }
     }
-    return resourcePaths;
+    return extractedPaths;
   }
 }

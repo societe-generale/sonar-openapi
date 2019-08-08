@@ -19,10 +19,9 @@
  */
 package org.sonar.openapi;
 
+import java.io.IOException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.plugins.openapi.api.OpenApiFile;
-
-import java.io.IOException;
 
 public abstract class SonarQubeOpenApiFile implements OpenApiFile {
 
@@ -38,7 +37,7 @@ public abstract class SonarQubeOpenApiFile implements OpenApiFile {
 
   @Override
   public String fileName() {
-    return inputFile.path().getFileName().toString();
+    return inputFile.filename();
   }
 
   public InputFile inputFile() {

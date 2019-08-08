@@ -17,23 +17,6 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.openapi.parser;
 
-import org.sonar.openapi.OpenApiConfiguration;
-import org.sonar.plugins.openapi.api.v2.OpenApi2Grammar;
-import org.sonar.plugins.openapi.api.v3.OpenApi3Grammar;
-import org.sonar.sslr.yaml.grammar.YamlParser;
-
-public class OpenApiParser {
-  private OpenApiParser() {
-    // Hidden utility class constructor
-  }
-
-  public static YamlParser createV2(OpenApiConfiguration configuration) {
-    return YamlParser.builder().withCharset(configuration.getCharset()).withGrammar(OpenApi2Grammar.create()).withStrictValidation(configuration.isStrict()).build();
-  }
-
-  public static YamlParser createV3(OpenApiConfiguration configuration) {
-    return YamlParser.builder().withCharset(configuration.getCharset()).withGrammar(OpenApi3Grammar.create()).withStrictValidation(configuration.isStrict()).build();
-  }
-}
+@javax.annotation.ParametersAreNonnullByDefault
+package org.sonar.plugins.openapi;

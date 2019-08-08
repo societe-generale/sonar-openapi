@@ -35,7 +35,6 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.plugins.openapi.cpd.OpenApiCpdAnalyzer;
 import org.sonar.openapi.metrics.FileLinesVisitor;
 import org.sonar.openapi.metrics.FileMetrics;
 import org.sonar.openapi.metrics.OpenApiMetrics;
@@ -45,8 +44,8 @@ import org.sonar.plugins.openapi.api.OpenApiCheck;
 import org.sonar.plugins.openapi.api.OpenApiFile;
 import org.sonar.plugins.openapi.api.OpenApiVisitorContext;
 import org.sonar.plugins.openapi.api.PreciseIssue;
+import org.sonar.plugins.openapi.cpd.OpenApiCpdAnalyzer;
 import org.sonar.sslr.yaml.grammar.ValidationException;
-import org.sonar.sslr.yaml.grammar.ValidationIssue;
 import org.sonar.sslr.yaml.grammar.YamlParser;
 
 public class OpenApiAnalyzer {
@@ -87,8 +86,9 @@ public class OpenApiAnalyzer {
       newLocation.at(range);
     }
 
-    if (location.message() != null) {
-      newLocation.message(location.message());
+    String message = location.message();
+    if (message != null) {
+      newLocation.message(message);
     }
     return newLocation;
   }
@@ -111,14 +111,14 @@ public class OpenApiAnalyzer {
       saveMeasures(inputFile, visitorContext);
     } catch (ValidationException e) {
       visitorContext = new OpenApiVisitorContext(openApiFile, e);
-      LOG.error("Error during file validation: " + inputFile.absolutePath() + "\"\n" + e.formatMessage());
+      LOG.error("Error during file validation: " + inputFile.filename() + "\"\n" + e.formatMessage());
       for (ValidationException cause : e.getCauses()) {
         dumpException(cause, inputFile);
       }
 
     } catch (RecognitionException e) {
       visitorContext = new OpenApiVisitorContext(openApiFile, e);
-      LOG.error("Unable to parse file: " + inputFile.absolutePath() + "\"\n" + e.getMessage());
+      LOG.error("Unable to parse file: " + inputFile.filename() + "\"\n" + e.getMessage());
       dumpException(e, inputFile);
     }
 

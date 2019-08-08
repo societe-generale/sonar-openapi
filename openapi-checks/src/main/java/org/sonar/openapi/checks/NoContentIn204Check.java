@@ -23,7 +23,6 @@ import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstNodeType;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
 import org.sonar.check.Rule;
 import org.sonar.plugins.openapi.api.OpenApiCheck;
 import org.sonar.plugins.openapi.api.v2.OpenApi2Grammar;
@@ -50,7 +49,7 @@ public class NoContentIn204Check extends OpenApiCheck {
         .forEach(this::checkNoContent);
   }
 
-  private void checkNoContent(@Nullable JsonNode response) {
+  private void checkNoContent(JsonNode response) {
     JsonNode effective = response.resolve();
     if (hasContent(effective)) {
       addIssue("204 No Content MUST NOT return anything.", response.key());

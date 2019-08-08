@@ -19,16 +19,12 @@
  */
 package org.sonar.openapi.checks;
 
-import com.fasterxml.jackson.core.JsonPointer;
 import com.google.common.collect.Sets;
-import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
-import java.util.List;
 import java.util.Set;
 import org.sonar.check.Rule;
 import org.sonar.plugins.openapi.api.OpenApiCheck;
 import org.sonar.plugins.openapi.api.v2.OpenApi2Grammar;
-import org.sonar.plugins.openapi.api.v3.OpenApi3Grammar;
 import org.sonar.sslr.yaml.grammar.JsonNode;
 
 @Rule(key = AtMostOneBodyParameterCheck.CHECK_KEY)
