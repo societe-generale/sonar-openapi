@@ -1,11 +1,12 @@
 language: java
-
-# Use container-based infrastructure:
 sudo: false
+install: true
+jdk: openjdk11
+
 
 before_cache:
   # remove all the artifacts that are installed in local repo because of mvn deploy
-  - rm -rf $HOME/.m2/repository/org/sonarsource/java
+  - rm -rf $HOME/.m2/repository/com.socientegenerale.sonar.openapi
   - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
 
 # to keep Maven local repository between builds:
@@ -19,11 +20,10 @@ cache:
 notifications:
   email: false
 
-jdk: openjdk11
+ddons:
+  sonarcloud:
+    organization: "societe-generale"
 
-script: ./travis.sh
+script: 
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=societe-generale_sonar-openapi
 
-notifications:
-  email: false
-  webhooks:
-    - secure: "NI4Fx52MsQcUTWSfhvHctuHi338Kq1I+02QL1Arhr1RnqmDtrgnWtnfN5NI13NmMgtbKvlHONmitV5qQJl33lAKtpUQKf1kCxwJHlxdibeShNfgESdscv6zDKAv/bS8l/uLXHYkSQvFZZ/RyVY90RUaeLqt8O19h4PaYr+cYpmM="
