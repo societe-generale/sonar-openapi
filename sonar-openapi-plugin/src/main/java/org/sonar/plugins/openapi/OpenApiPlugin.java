@@ -38,10 +38,11 @@ public class OpenApiPlugin implements Plugin {
       PropertyDefinition.builder(FILE_SUFFIXES_KEY)
         .index(10)
         .name("File Suffixes")
-        .description("Comma-separated list of suffixes of OpenAPI files to analyze.")
+        .description("A list of suffixes of OpenAPI files to analyze.")
         .category(OPENAPI_CATEGORY)
         .subCategory(GENERAL)
         .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
         .defaultValue("yaml,json")
         .build(),
       PropertyDefinition.builder(OpenApiScannerSensor.V2_PATH_KEY)
