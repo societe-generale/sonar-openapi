@@ -39,10 +39,6 @@ import org.sonar.openapi.checks.CheckList;
 import org.sonar.plugins.openapi.api.OpenApiCustomRuleRepository;
 
 public class OpenApiScannerSensor implements Sensor {
-  public static final String V2_PATH_KEY = "sonar.openapi.path.v2";
-  public static final String DEFAULT_V2_PATH = "openapi/v2/**";
-  public static final String V3_PATH_KEY = "sonar.openapi.path.v3";
-  public static final String DEFAULT_V3_PATH = "openapi/v3/**";
   private static final Logger LOGGER = Loggers.get(OpenApiScannerSensor.class);
   private final OpenApiChecks checks;
   private FileLinesContextFactory fileLinesContextFactory;
@@ -71,18 +67,13 @@ public class OpenApiScannerSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
     FilePredicates p = context.fileSystem().predicates();
+    OpenApiProperties openApiProperties = new OpenApiProperties();
 
-    scanFiles(context, p, V2_PATH_KEY, DEFAULT_V2_PATH, true);
-    scanFiles(context, p, V3_PATH_KEY, DEFAULT_V3_PATH, false);
+    scanFiles(context, p, openApiProperties.getV2FilesPattern(context), true);
+    scanFiles(context, p, openApiProperties.getV3FilesPattern(context), false);
   }
 
-  public void scanFiles(SensorContext context, FilePredicates p, String pathsProperty, String defaultPath, boolean isV2) {
-    String[] pathPatterns;
-    if (!context.config().hasKey(pathsProperty)) {
-      pathPatterns = new String[] { defaultPath };
-    } else {
-      pathPatterns = context.config().getStringArray(pathsProperty);
-    }
+  public void scanFiles(SensorContext context, FilePredicates p, String[] pathPatterns, boolean isV2) {
     Iterable<InputFile> it = context.fileSystem().inputFiles(
       p.and(p.hasType(InputFile.Type.MAIN),
         p.hasLanguage(OpenApi.KEY),

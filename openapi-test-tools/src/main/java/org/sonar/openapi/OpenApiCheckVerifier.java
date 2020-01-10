@@ -74,6 +74,7 @@ public class OpenApiCheckVerifier {
    *
    * @param path The file to be analyzed
    * @param check The check to be used for the analysis
+   * @param isV2 <code>true</code> if OpenApiSpecification version 2 or <code>false</code> if version 3
    */
   public static void verify(String path, OpenApiCheck check, boolean isV2) {
     OpenApiCheckVerifier verifier = new OpenApiCheckVerifier();

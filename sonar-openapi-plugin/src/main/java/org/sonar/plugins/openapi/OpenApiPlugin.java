@@ -27,7 +27,7 @@ import org.sonar.openapi.metrics.OpenApiMetrics;
 public class OpenApiPlugin implements Plugin {
 
   public static final String FILE_SUFFIXES_KEY = "sonar.openapi.file.suffixes";
-  private static final String OPENAPI_CATEGORY = "OpenApi";
+  public static final String OPENAPI_CATEGORY = "OpenApi";
   // Subcategories
   private static final String GENERAL = "General";
 
@@ -45,7 +45,7 @@ public class OpenApiPlugin implements Plugin {
         .multiValues(true)
         .defaultValue("yaml,json")
         .build(),
-      PropertyDefinition.builder(OpenApiScannerSensor.V2_PATH_KEY)
+      PropertyDefinition.builder(OpenApiProperties.V2_PATH_KEY)
         .index(11)
         .name("Paths to OpenAPI v2 contract(s)")
         .description("Path to OpenAPI v2 contracts. Ant patterns are accepted for relative path. The contracts can be in JSON or in YAML.")
@@ -53,9 +53,9 @@ public class OpenApiPlugin implements Plugin {
         .subCategory(GENERAL)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
-        .defaultValue(OpenApiScannerSensor.DEFAULT_V2_PATH)
+        .defaultValue(OpenApiProperties.DEFAULT_V2_PATH)
         .build(),
-      PropertyDefinition.builder(OpenApiScannerSensor.V3_PATH_KEY)
+      PropertyDefinition.builder(OpenApiProperties.V3_PATH_KEY)
         .index(11)
         .name("Paths to OpenAPI v3 contract(s)")
         .description("Path to OpenAPI v3 contracts. Ant patterns are accepted for relative path. The contracts can be in JSON or in YAML.")
@@ -63,7 +63,7 @@ public class OpenApiPlugin implements Plugin {
         .subCategory(GENERAL)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
-        .defaultValue(OpenApiScannerSensor.DEFAULT_V3_PATH)
+        .defaultValue(OpenApiProperties.DEFAULT_V3_PATH)
         .build(),
       OpenApi.class,
       OpenApiProfileDefinition.class,
