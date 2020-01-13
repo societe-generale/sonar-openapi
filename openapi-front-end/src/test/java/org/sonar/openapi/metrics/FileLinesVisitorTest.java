@@ -46,4 +46,24 @@ public class FileLinesVisitorTest {
     assertThat(visitor.getLinesWithNoSonar()).hasSize(2);
     assertThat(visitor.getLinesWithNoSonar()).containsOnly(9, 12);
   }
+
+  @Test
+  public void correctly_reports_strings_with_embedded_newline() {
+    FileLinesVisitor visitor = new FileLinesVisitor();
+
+    TestOpenApiVisitorRunner.scanFile(new File(BASE_DIR, "embedded-newlines-lines.yaml"), visitor);
+
+    assertThat(visitor.getLinesOfCode()).hasSize(16);
+    assertThat(visitor.getLinesOfCode()).containsOnly(1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 17, 18, 19);
+  }
+
+  @Test
+  public void correctly_reports_multiline_strings() {
+    FileLinesVisitor visitor = new FileLinesVisitor();
+
+    TestOpenApiVisitorRunner.scanFile(new File(BASE_DIR, "multiline-lines.yaml"), visitor);
+
+    assertThat(visitor.getLinesOfCode()).hasSize(18);
+    assertThat(visitor.getLinesOfCode()).containsOnly(1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21);
+  }
 }

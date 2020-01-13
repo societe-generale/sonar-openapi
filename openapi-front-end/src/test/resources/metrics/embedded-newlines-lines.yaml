@@ -1,0 +1,18 @@
+openapi: "3.0.1"
+x-no-sonar: SomeId
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+paths:
+  /pets:
+    # a comment line
+    x-sonar-disable: SomeId
+    get:
+      responses:
+        x-sonar-enable: SomeId
+        '200':
+          description: "some response\nwith newlines"
+  #
+  # another comment line
+  /newpets:
+    $ref: '#/paths/~1pets'

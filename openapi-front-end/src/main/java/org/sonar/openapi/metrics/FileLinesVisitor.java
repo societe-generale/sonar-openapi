@@ -86,7 +86,9 @@ public class FileLinesVisitor extends OpenApiVisitor {
   }
 
   private void addTokenLines(Token token, Set<Integer> lines) {
-    String[] tokenLines = token.getValue().split("\n", -1);
+    // String tokens are rather complicated in Yaml. We need to work on the original value to reason on lines,
+    // and remove any trailing newline that could be left by the parser
+    String[] tokenLines = token.getOriginalValue().trim().split("\n", -1);
     for (int line = token.getLine(); line < token.getLine() + tokenLines.length; line++) {
       lines.add(line);
     }
