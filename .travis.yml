@@ -25,10 +25,4 @@ addons:
     organization: "societe-generale"
 
 script: 
-  - mvn -Pcoverage,release --settings release/mvnsettings.xml clean org.jacoco:jacoco-maven-plugin:prepare-agent deploy sonar:sonar -Dsonar.projectKey=societe-generale_sonar-openapi
-
-before_install:
-  - release/createReleaseProperties.sh
-  # Install GPG secrets so that we can sign during the release
-  - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
-  - echo $GPG_OWNERTRUST | base64 --decode | gpg --import-ownertrust
+  - ./travis.sh
