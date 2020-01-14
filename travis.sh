@@ -34,7 +34,7 @@ if [[ "${TRAVIS_BRANCH}" == "master" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" 
       -Pcoverage,release \
       -Dmaven.test.redirectTestOutputToFile=false \
       -Dsonar.projectVersion=$CURRENT_VERSION \
-      -Dsonar.projectKey=societe-generale_sonar_openapi \
+      -Dsonar.projectKey=societe-generale_sonar-openapi \
       -Dsonar.analysis.buildNumber=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.pipeline=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.sha1=$TRAVIS_COMMIT  \
@@ -53,7 +53,7 @@ elif [[ "${TRAVIS_BRANCH}" == "branch-"* ]] && [[ "$TRAVIS_PULL_REQUEST" == "fal
       -Pcoverage \
       -Dmaven.test.redirectTestOutputToFile=false \
       -Dsonar.branch.name=$TRAVIS_BRANCH \
-      -Dsonar.projectKey=societe-generale_sonar_openapi \
+      -Dsonar.projectKey=societe-generale_sonar-openapi \
       -Dsonar.analysis.buildNumber=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.pipeline=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.sha1=$TRAVIS_COMMIT  \
@@ -73,7 +73,7 @@ elif [[ "$TRAVIS_PULL_REQUEST" != "false" ]] && [[ -n "${GITHUB_TOKEN:-}" ]]; th
   mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
       -Pcoverage \
       -Dmaven.test.redirectTestOutputToFile=false \
-      -Dsonar.projectKey=societe-generale_sonar_openapi \
+      -Dsonar.projectKey=societe-generale_sonar-openapi \
       -Dsonar.analysis.buildNumber=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.pipeline=$TRAVIS_BUILD_NUMBER \
       -Dsonar.analysis.sha1=$TRAVIS_PULL_REQUEST_SHA  \
@@ -92,7 +92,7 @@ elif [[ "$TRAVIS_BRANCH" == "feature/long/"* ]] && [[ "$TRAVIS_PULL_REQUEST" == 
   mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
     -Pcoverage \
     -Dmaven.test.redirectTestOutputToFile=false \
-    -Dsonar.projectKey=societe-generale_sonar_openapi \
+    -Dsonar.projectKey=societe-generale_sonar-openapi \
     -Dsonar.branch.name=$TRAVIS_BRANCH \
     -Dsonar.analysis.buildNumber=$TRAVIS_BUILD_NUMBER \
     -Dsonar.analysis.pipeline=$TRAVIS_BUILD_NUMBER \
