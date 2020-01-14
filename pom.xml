@@ -9,7 +9,7 @@
 
   <groupId>com.societegenerale.sonar.openapi</groupId>
   <artifactId>openapi</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SonarOpenAPI</name>
@@ -39,7 +39,7 @@
     <url>https://github.com/societe-generale/sonar-openapi</url>
     <connection>scm:git:git@github.com:societe-generale/sonar-openapi.git</connection>
     <developerConnection>scm:git:git@github.com:societe-generale/sonar-openapi.git</developerConnection>
-    <tag>openapi-1.2.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
