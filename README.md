@@ -216,3 +216,16 @@ If you are running behind an enterprise proxy, specify the java proxy options on
 - https.proxyPort
 - https.proxyUser
 - https.proxyPassword
+
+### Performing a new release
+
+Use the Maven release plugin to change the version numbers and prepare a release. The plugin is already configured to
+tag the release after the current SNAPSHOT version. By default it will upgrade it to the next path version.
+
+```bash
+git checkout -b prepare-release-1.2.2
+mvn release:prepare -DpushChanges=false -Dusername=<YourGithubLogin>
+```
+
+After preparing the release commits, perform a pull request as usual. Once the PR is merged in master, Travis will
+deploy the release to Maven Central.
