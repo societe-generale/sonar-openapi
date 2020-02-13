@@ -1,0 +1,16 @@
+{
+  "title": "$refs must reference a valid location in the document",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "15mn"
+  },
+  "tags": [
+    "interoperability",
+    "specification"
+  ],
+  "defaultSeverity": "Blocker",
+  "ruleSpecification": "",
+  "sqKey": "ParsingError"
+}

@@ -1,0 +1,41 @@
+openapi: "3.0.1"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+paths:
+  /pets:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/Missing"       # Noncompliant {{Missing parameter}}
+      responses:
+        default:
+          description: the default response
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Missing"    # Noncompliant {{Missing schema}}
+        '201':
+          $ref: "#/components/responses/Missing"        # Noncompliant {{Missing response}}
+    put:
+      parameters:
+        - $ref: "#/components/parameters/Used"
+      responses:
+        default:
+          description: the default response
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Used"
+        '201':
+          $ref: "#/components/responses/Used"
+components:
+  schemas:
+    Used:
+      type: object
+  parameters:
+    Used:
+      in: query
+      name: toto
+  responses:
+    Used:
+      description: some referenced response
