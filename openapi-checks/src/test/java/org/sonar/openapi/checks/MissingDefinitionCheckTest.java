@@ -19,30 +19,19 @@
  */
 package org.sonar.openapi.checks;
 
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Test;
+import org.sonar.openapi.OpenApiCheckVerifier;
 
-public final class CheckList {
-  public static final String REPOSITORY_KEY = "openapi";
+public class MissingDefinitionCheckTest {
+    @Test
+    public void verify_in_v2() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v2/missing-definition.yaml",
+            new MissingDefinitionCheck(), true);
+    }
 
-  private CheckList() {
-  }
-
-  public static List<Class> getChecks() {
-    return Arrays.asList(
-      PathMaskeradingCheck.class,
-      MediaTypeCheck.class,
-      ParsingErrorCheck.class,
-      DefaultResponseCheck.class,
-      DefinedResponseCheck.class,
-      DeclaredTagCheck.class,
-      DocumentedTagCheck.class,
-      AtMostOneBodyParameterCheck.class,
-      NoUnusedDefinitionCheck.class,
-      NoContentIn204Check.class,
-      ProvideOpSummaryCheck.class,
-      DescriptionDiffersSummaryCheck.class,
-      MissingDefinitionCheck.class
-    );
-  }
+    @Test
+    public void verify_in_v3() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v3/missing-definition.yaml",
+            new MissingDefinitionCheck(), false);
+    }
 }
