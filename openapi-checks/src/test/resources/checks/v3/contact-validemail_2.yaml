@@ -1,0 +1,10 @@
+openapi: 3.0.0
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+  contact:
+    email: max@muster.at
+paths:
+  /pets:
+

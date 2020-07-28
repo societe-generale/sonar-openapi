@@ -1,0 +1,9 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  contact:
+    email: randomString # Noncompliant {{There should only be a valid email address in contact.}}
+paths:
+  /pets:
+

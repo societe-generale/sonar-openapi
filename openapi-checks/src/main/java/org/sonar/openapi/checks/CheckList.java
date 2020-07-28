@@ -41,6 +41,7 @@ public final class CheckList {
       NoUnusedDefinitionCheck.class,
       NoContentIn204Check.class,
       ProvideOpSummaryCheck.class,
+      ContactValidEmailCheck.class,
       DescriptionDiffersSummaryCheck.class
     );
   }
