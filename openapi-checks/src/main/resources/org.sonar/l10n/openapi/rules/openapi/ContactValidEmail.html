@@ -1,0 +1,21 @@
+<p>If you have a contact field, there should only be a valid
+    email address inscribed.</p>
+<h2>Noncompliant Code Example</h2>
+<pre>
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  contact:
+    email: randomString # Noncompliant: There should only be a valid email address in contact.
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  contact:
+    email: max@mustermann.at
+</pre>
+
