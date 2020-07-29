@@ -1,0 +1,11 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: https://www.termsofservice.com
+  contact:
+    url: https://www.contact.com
+  license:
+    name: someName
+paths: {}
+  

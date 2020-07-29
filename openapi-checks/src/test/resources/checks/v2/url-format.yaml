@@ -1,0 +1,11 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: randomString # Noncompliant {{Make sure to only use an valid URL.}}
+  contact:
+    url: randomString # Noncompliant {{Make sure to only use an valid URL.}}
+  license:
+    name: someName
+    url: randomString # Noncompliant {{Make sure to only use an valid URL.}}
+paths: {}
