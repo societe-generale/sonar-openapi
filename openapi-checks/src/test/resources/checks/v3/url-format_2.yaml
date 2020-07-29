@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+  termsOfService: https://www.termsofservice.com
+  contact:
+    url: https://www.contact.com
+  license:
+    name: someName
+paths: {}

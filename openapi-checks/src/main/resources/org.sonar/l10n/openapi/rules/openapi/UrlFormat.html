@@ -1,0 +1,34 @@
+<p>If you use links in your info object, make that you
+    use only valid urls.</p>
+<h2>Noncompliant Code Example</h2>
+<pre>
+{
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: randomString # Noncompliant: Make sure to only use a valid URL.
+  contact:
+    url: randomString # Noncompliant: Make sure to only use a valid URL.
+  license:
+    name: someName
+    url: randomString # Noncompliant: Make sure to only use a valid URL.
+paths: {}
+}
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+{
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: https://www.termsofservice.com
+  contact:
+    url: https://www.contact.com
+  license:
+    name: someName
+    url: https://www.license.com
+paths: {}
+}
+</pre>

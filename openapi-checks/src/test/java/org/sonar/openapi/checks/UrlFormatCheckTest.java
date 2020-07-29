@@ -19,30 +19,27 @@
  */
 package org.sonar.openapi.checks;
 
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Test;
+import org.sonar.openapi.OpenApiCheckVerifier;
 
-public final class CheckList {
-  public static final String REPOSITORY_KEY = "openapi";
+public class UrlFormatCheckTest {
+    @Test
+    public void verify_url_format_in_v2() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v2/url-format.yaml", new UrlFormatCheck(), true);
+    }
 
-  private CheckList() {
-  }
+    @Test
+    public void verify_url_format_in_v3() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v3/url-format.yaml", new UrlFormatCheck(), false);
+    }
 
-  public static List<Class> getChecks() {
-    return Arrays.asList(
-      PathMaskeradingCheck.class,
-      MediaTypeCheck.class,
-      ParsingErrorCheck.class,
-      DefaultResponseCheck.class,
-      DefinedResponseCheck.class,
-      DeclaredTagCheck.class,
-      DocumentedTagCheck.class,
-      AtMostOneBodyParameterCheck.class,
-      NoUnusedDefinitionCheck.class,
-      NoContentIn204Check.class,
-      ProvideOpSummaryCheck.class,
-      UrlFormatCheck.class,
-      DescriptionDiffersSummaryCheck.class
-    );
-  }
+    @Test
+    public void verify_url_format_in_v2_2() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v2/url-format_2.yaml", new UrlFormatCheck(), true);
+    }
+
+    @Test
+    public void verify_url_format_in_v3_2() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v3/url-format_2.yaml", new UrlFormatCheck(), false);
+    }
 }
