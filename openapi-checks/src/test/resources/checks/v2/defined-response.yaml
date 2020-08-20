@@ -13,6 +13,8 @@ paths:
           description: some response
           schema:
             type: string
+        '204':
+          description: no content
         '401': # Noncompliant {{Define the model of your response.}}
           $ref: '#/responses/MyErroneousResponse'
     post:

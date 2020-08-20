@@ -21,8 +21,11 @@ package org.sonar.openapi.checks;
 
 import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstNodeType;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.sonar.check.Rule;
@@ -36,11 +39,13 @@ public class DefinedResponseCheck extends OpenApiCheck {
   protected static final String CHECK_KEY = "DefinedResponse";
   private static final String MESSAGE_NO_RESPONSE = "Define the responses of your operations.";
   private static final String MESSAGE_NO_MODEL = "Define the model of your response.";
+  private static Set<String> HTTP_CODES_WHICH_CAN_HAVE_EMPTY_RESPONSE = Collections.unmodifiableSet(
+        new HashSet<>(Arrays.asList("204")));
 
   @Override
   public Set<AstNodeType> subscribedKinds() {
     return Sets.newHashSet(
-      OpenApi2Grammar.RESPONSES, OpenApi3Grammar.RESPONSES);
+          OpenApi2Grammar.RESPONSES, OpenApi3Grammar.RESPONSES);
   }
 
   @Override
@@ -60,6 +65,9 @@ public class DefinedResponseCheck extends OpenApiCheck {
     boolean hasDefaultSchema = defaultResponse != null && visitResponseV2OrMediaType(defaultResponse, false);
 
     for (Map.Entry<String, JsonNode> entry : responses.entrySet()) {
+      if (HTTP_CODES_WHICH_CAN_HAVE_EMPTY_RESPONSE.contains(entry.getKey())) {
+        continue;
+      }
       visitResponseV2OrMediaType(entry.getValue(), hasDefaultSchema);
     }
   }
@@ -82,6 +90,9 @@ public class DefinedResponseCheck extends OpenApiCheck {
     }
 
     for (Map.Entry<String, JsonNode> entry : responses.entrySet()) {
+      if (HTTP_CODES_WHICH_CAN_HAVE_EMPTY_RESPONSE.contains(entry.getKey())) {
+        continue;
+      }
       visitResponseV3(entry.getValue(), defaultSchemas);
     }
   }

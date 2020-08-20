@@ -22,6 +22,8 @@ paths:
             'application/json':
               schema:
                 type: string
+        '204':
+          description: no content
         '500': # Noncompliant {{Define the model of your response.}}
           $ref: '#/components/responses/MyErroneousResponse'
     post:
