@@ -237,7 +237,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
   }
 
   private static void buildDefinitions(YamlGrammarBuilder b) {
-    Object typeFieldValues = b.firstOf("object", "string", "number", "integer", "boolean", "array", "null");
+    Object typeFieldValues = b.firstOf("object", "string", "number", "integer", "boolean", "array", "null", "file");
     b.rule(SCHEMA).is(b.object(
       b.property("$ref", b.string()),
       b.property("type", b.firstOf(typeFieldValues, b.array(typeFieldValues))),
