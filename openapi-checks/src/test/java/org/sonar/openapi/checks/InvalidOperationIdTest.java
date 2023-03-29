@@ -19,31 +19,12 @@
  */
 package org.sonar.openapi.checks;
 
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Test;
+import org.sonar.openapi.OpenApiCheckVerifier;
 
-public final class CheckList {
-  public static final String REPOSITORY_KEY = "openapi";
-
-  private CheckList() {
-  }
-
-  public static List<Class> getChecks() {
-    return Arrays.asList(
-      PathMaskeradingCheck.class,
-      MediaTypeCheck.class,
-      ParsingErrorCheck.class,
-      DefaultResponseCheck.class,
-      DefinedResponseCheck.class,
-      DeclaredTagCheck.class,
-      DocumentedTagCheck.class,
-      AtMostOneBodyParameterCheck.class,
-      NoUnusedDefinitionCheck.class,
-      NoContentIn204Check.class,
-      ProvideOpSummaryCheck.class,
-      ContactValidEmailCheck.class,
-      DescriptionDiffersSummaryCheck.class,
-      InvalidOperationIdName.class
-    );
-  }
+public class InvalidOperationIdTest {
+    @Test
+    public void detects_operationId_failures_v3() {
+        OpenApiCheckVerifier.verify("src/test/resources/checks/v3/invalid-operation-id-format.yaml", new InvalidOperationIdName(), false);
+    }
 }

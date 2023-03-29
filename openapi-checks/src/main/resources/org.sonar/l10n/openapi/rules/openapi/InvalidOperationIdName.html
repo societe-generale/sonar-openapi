@@ -1,0 +1,18 @@
+<p>As defined in the SDK guidelines, the operationId SHOULD be defined in the form path+crud.
+  Keeping a similar operationId definition for all swaggers helps maintain consistency and ease-of-use.
+See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#path-item-object.</p>
+
+<h2>Non-compliant Code Example</h2>
+<pre>
+ "/clusters/{clusterId}/snapshots":
+        get:
+            operationId: retrieveClusterSnapshots
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+<pre>
+ "/clusters/{clusterId}/snapshots":
+        get:
+            operationId: clustersSnapshotsGet
+</pre>
+</pre>

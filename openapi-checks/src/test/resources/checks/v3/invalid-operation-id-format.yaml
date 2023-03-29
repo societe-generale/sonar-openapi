@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+paths:
+  /clusters:
+    get:
+      operationId: retrieveClusters # Noncompliant: Found operationId: `retrieveClusters` does not match expected format: `clustersGet`
+      description: Retrieves a list of PostgreSQL clusters.
+      summary: Retrieves a list of PostgreSQL clusters 2
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      tags:
+        - Clusters
+      parameters:
+        - $ref: "#/components/parameters/ClusterNameQuery"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClusterList"
+        default:
+          $ref: "#/components/responses/ApiError"
