@@ -144,6 +144,13 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>11</release>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -209,7 +216,11 @@
         <version>${sonar.version}</version>
         <scope>provided</scope>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

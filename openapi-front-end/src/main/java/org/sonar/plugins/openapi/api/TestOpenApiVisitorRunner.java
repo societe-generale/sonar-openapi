@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.sonar.openapi.OpenApiConfiguration;
 import org.sonar.openapi.parser.OpenApiParser;
 import org.sonar.sslr.yaml.grammar.JsonNode;
@@ -59,7 +61,17 @@ public class TestOpenApiVisitorRunner {
 
   public static OpenApiVisitorContext createContext(File file, YamlParser parser) {
     TestOpenApiFile openApiFile = new TestOpenApiFile(file);
-    JsonNode rootTree = parser.parse(file);
+    Path path;
+    try {
+      // create a temp file without empty new lines
+      Path temp = Files.createTempFile( "temp", file.getName());
+      path  = Files.writeString(temp, openApiFile.content());
+    } catch (IOException e) {
+      throw new IllegalStateException("Cannot create temp file, or write to file " + file, e);
+    }
+    File tempFile = new File(path.toUri());
+    JsonNode rootTree = parser.parse(tempFile);
+    tempFile.deleteOnExit();
     return new OpenApiVisitorContext(rootTree, parser.getIssues(), openApiFile);
   }
 
@@ -74,7 +86,7 @@ public class TestOpenApiVisitorRunner {
     @Override
     public String content() {
       try {
-        return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        return Files.readString(file.toPath()).replaceAll("(?m)^[ \t]*\r?\n", "");
       } catch (IOException e) {
         throw new IllegalStateException("Cannot read " + file, e);
       }

@@ -188,6 +188,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.discriminant("in", "body"),
       b.property("description", DESCRIPTION),
       b.property("required", b.bool()),
+      b.property("deprecated", b.bool()),
       b.mandatoryProperty("schema", SCHEMA),
       b.patternProperty(EXTENSION_PATTERN, b.anything()))).skip();
 
@@ -196,6 +197,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.discriminant("in", b.firstOf("path", "query", "header", "formData")),
       b.property("description", DESCRIPTION),
       b.property("required", b.bool()),
+      b.property("deprecated", b.bool()),
       b.mandatoryProperty("type", b.firstOf("string", "number", "integer", "boolean", "array", "file")),
       b.property("format", b.string()),
       b.property("allowEmptyValue", b.bool()),
@@ -259,6 +261,7 @@ public enum OpenApi2Grammar implements GrammarRuleKey {
       b.property("maxProperties", b.integer()),
       b.property("minProperties", b.integer()),
       b.property("required", b.array(b.string())),
+      b.property("deprecated", b.bool()),
       b.property("enum", b.array(b.anything())),
       b.property("items", SCHEMA),
       b.property("allOf", b.array(SCHEMA)),
