@@ -9,7 +9,7 @@
 
   <groupId>com.societegenerale.sonar.openapi</groupId>
   <artifactId>openapi</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SonarOpenAPI</name>
