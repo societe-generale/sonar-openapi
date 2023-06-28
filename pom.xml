@@ -9,14 +9,14 @@
 
   <groupId>com.societegenerale.sonar.openapi</groupId>
   <artifactId>openapi</artifactId>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SonarOpenAPI</name>
-  <description>Code Analyze for OpenAPI</description>
+  <description>Code Analyzer for OpenAPI</description>
   <inceptionYear>2018</inceptionYear>
   <organization>
-    <name>Societe Generale</name>
+    <name>Ionos Cloud</name>
   </organization>
   <licenses>
     <license>
@@ -26,21 +26,21 @@
     </license>
   </licenses>
 
-  <developers>
-    <developer>
-      <id>vgirardreydet</id>
-      <name>Vincent Girard-Reydet</name>
-      <email>vincent.girard-reydet@socgen.com</email>
-      <organization>Societe Generale</organization>
-    </developer>
-  </developers>
+<!--  <developers>-->
+<!--    <developer>-->
+<!--      <id>vgirardreydet</id>-->
+<!--      <name>Vincent Girard-Reydet</name>-->
+<!--      <email>vincent.girard-reydet@socgen.com</email>-->
+<!--      <organization>Societe Generale</organization>-->
+<!--    </developer>-->
+<!--  </developers>-->
 
-  <scm>
-    <url>https://github.com/societe-generale/sonar-openapi</url>
-    <connection>scm:git:git@github.com:societe-generale/sonar-openapi.git</connection>
-    <developerConnection>scm:git:git@github.com:societe-generale/sonar-openapi.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+<!--  <scm>-->
+<!--    <url>https://github.com/societe-generale/sonar-openapi</url>-->
+<!--    <connection>scm:git:git@github.com:societe-generale/sonar-openapi.git</connection>-->
+<!--    <developerConnection>scm:git:git@github.com:societe-generale/sonar-openapi.git</developerConnection>-->
+<!--    <tag>HEAD</tag>-->
+<!--  </scm>-->
 
   <distributionManagement>
     <snapshotRepository>
@@ -53,10 +53,10 @@
     </repository>
   </distributionManagement>
 
-  <ciManagement>
-    <system>Travis</system>
-    <url>https://travis-ci.org/societe-generale/sonar-openapi</url>
-  </ciManagement>
+<!--  <ciManagement>-->
+<!--    <system>Travis</system>-->
+<!--    <url>https://travis-ci.org/societe-generale/sonar-openapi</url>-->
+<!--  </ciManagement>-->
 
   <modules>
     <module>openapi-front-end</module>

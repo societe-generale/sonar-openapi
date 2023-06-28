@@ -54,7 +54,7 @@ public class TestOpenApiVisitorRunner {
   }
 
   public static OpenApiVisitorContext createContext(File file, boolean v2) {
-    OpenApiConfiguration configuration = new OpenApiConfiguration(StandardCharsets.UTF_8, true);
+    OpenApiConfiguration configuration = new OpenApiConfiguration(StandardCharsets.UTF_8, false);
     YamlParser parser = v2 ? OpenApiParser.createV2(configuration) : OpenApiParser.createV3(configuration);
     return createContext(file, parser);
   }
