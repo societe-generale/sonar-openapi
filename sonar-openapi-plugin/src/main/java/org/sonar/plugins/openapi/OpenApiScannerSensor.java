@@ -19,9 +19,14 @@
  */
 package org.sonar.plugins.openapi;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile;
@@ -69,7 +74,7 @@ public class OpenApiScannerSensor implements Sensor {
     FilePredicates p = context.fileSystem().predicates();
     OpenApiProperties openApiProperties = new OpenApiProperties();
 
-    scanFiles(context, p, openApiProperties.getV2FilesPattern(context), true);
+    //scanFiles(context, p, openApiProperties.getV2FilesPattern(context), true);
     scanFiles(context, p, openApiProperties.getV3FilesPattern(context), false);
   }
 
@@ -78,14 +83,46 @@ public class OpenApiScannerSensor implements Sensor {
       p.and(p.hasType(InputFile.Type.MAIN),
         p.hasLanguage(OpenApi.KEY),
         p.matchesPathPatterns(pathPatterns)));
-    List<InputFile> list = new ArrayList<>();
-    it.forEach(list::add);
-    List<InputFile> inputFiles = Collections.unmodifiableList(list);
+    List<InputFile> v3list = new ArrayList<>();
+    List<InputFile> v2list = new ArrayList<>();
+    for (InputFile inputFile : it) {
+      if (isVersionMatch(inputFile.path(), "\\\"{0,}openapi\\\"{0,}\\s?:\\s?[\\\"\\']?3\\.0\\.[0,1,2,3][\\\"\\']?")) {
+        LOGGER.info("Identified version v3 for : {}.", inputFile.absolutePath());
 
+        v3list.add(inputFile);
+      } else if (isVersionMatch(inputFile.path(), "\\\"{0,}swagger\\\"{0,}\\:\\s?[\\\"\\']?2\\.0[\\\"\\']?")) {
+        LOGGER.info("Identified version v2 for : {}.", inputFile.absolutePath());
+        v2list.add(inputFile);
+      } else {
+        LOGGER.warn("OpenAPI Scanner could not detect version of: {}. It will be parsed as openapi 3.0.+", inputFile.absolutePath());
+        v3list.add(inputFile);
+      }
+    }
+
+    List<InputFile> inputFiles = Collections.unmodifiableList(v3list);
     if (!inputFiles.isEmpty()) {
-      OpenApiAnalyzer scanner = new OpenApiAnalyzer(context, checks, fileLinesContextFactory, noSonarFilter, inputFiles, isV2);
+      OpenApiAnalyzer scanner = new OpenApiAnalyzer(context, checks, fileLinesContextFactory, noSonarFilter, inputFiles, false);
       LOGGER.info("OpenAPI Scanner called for the following files: {}.", inputFiles);
       scanner.scanFiles();
     }
+
+    inputFiles = Collections.unmodifiableList(v2list);
+    if (!inputFiles.isEmpty()) {
+      OpenApiAnalyzer scanner = new OpenApiAnalyzer(context, checks, fileLinesContextFactory, noSonarFilter, inputFiles, true);
+      LOGGER.info("OpenAPI Scanner called for the following files: {}.", inputFiles);
+      scanner.scanFiles();
+    }
+}
+
+  private static boolean isVersionMatch(Path path, String version) {
+    Pattern regex = Pattern.compile(version);
+
+    try (Stream<String> stream = Files.lines(path)) {
+      return stream.anyMatch( l -> regex.matcher(l).find());
+    } catch (IOException e) {
+      LOGGER.error("exception for file {} : {}.", path, e.getMessage());
+      e.printStackTrace();
+    }
+    return false;
   }
 }

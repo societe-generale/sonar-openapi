@@ -20,6 +20,7 @@
 package org.sonar.plugins.openapi.api;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -60,19 +61,34 @@ public class TestOpenApiVisitorRunner {
   }
 
   public static OpenApiVisitorContext createContext(File file, YamlParser parser) {
-    Path path;
     try {
-      // create a temp file without empty new lines
-      Path temp = Files.createTempFile( "temp", file.getName());
-      path  = Files.writeString(temp, Files.readString(file.toPath()).replaceAll("(?m)^[ \t]*\r?\n", ""));
+      modifyFile(file.getAbsolutePath(), Files.readString(file.toPath()));
     } catch (IOException e) {
-      throw new IllegalStateException("Cannot create temp file, or write to file " + file, e);
+      throw new IllegalStateException("Cannot read " + file, e);
     }
-    File tempFile = new File(path.toUri());
-    JsonNode rootTree = parser.parse(tempFile);
-    TestOpenApiFile openApiFile = new TestOpenApiFile(tempFile);
-    tempFile.deleteOnExit();
+    TestOpenApiFile openApiFile = new TestOpenApiFile(file);
+    JsonNode rootTree = parser.parse(file);
     return new OpenApiVisitorContext(rootTree, parser.getIssues(), openApiFile);
+  }
+  // removes empty newlines from file
+  public static void modifyFile(String filePath,String content)
+  {
+    var contentWithoutEmptyNewLines = content.replaceAll("(?m)^[ \t]*\r?\n", "");
+    File fileToBeModified = new File(filePath);
+    FileWriter writer = null;
+
+    try
+    {
+      //Rewriting the input text file with newContent
+      writer = new FileWriter(fileToBeModified);
+      writer.write(contentWithoutEmptyNewLines);
+      //Closing the resources
+      writer.close();
+    }
+    catch (IOException e)
+    {
+      throw new IllegalStateException("Cannot write to " + fileToBeModified, e);
+    }
   }
 
   private static class TestOpenApiFile implements OpenApiFile {

@@ -20,6 +20,9 @@
 package org.sonar.openapi;
 
 import com.sonar.sslr.api.RecognitionException;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
 import org.sonar.api.batch.fs.InputFile;
@@ -66,7 +69,7 @@ public class OpenApiAnalyzer {
     this.noSonarFilter = noSonarFilter;
     this.cpdAnalyzer = new OpenApiCpdAnalyzer(context);
     this.inputFiles = inputFiles;
-    OpenApiConfiguration configuration = new OpenApiConfiguration(context.fileSystem().encoding(), true);
+    OpenApiConfiguration configuration = new OpenApiConfiguration(context.fileSystem().encoding(), false);
     if (isv2) {
       this.parser = OpenApiParser.createV2(configuration);
     } else {
@@ -76,11 +79,11 @@ public class OpenApiAnalyzer {
 
   private static NewIssueLocation newLocation(InputFile inputFile, NewIssue issue, IssueLocation location) {
     NewIssueLocation newLocation = issue.newLocation().on(inputFile);
-    if (location.startLine() != IssueLocation.UNDEFINED_LINE) {
+    if (location.startLine() != IssueLocation.UNDEFINED_LINE && !(location.startLine() == location.endLine() && location.startLineOffset() == location.endLineOffset())){
       TextRange range;
       if (location.startLineOffset() == IssueLocation.UNDEFINED_OFFSET) {
         range = inputFile.selectLine(location.startLine());
-      } else {
+      }else {
         range = inputFile.newRange(location.startLine(), location.startLineOffset(), location.endLine(), location.endLineOffset());
       }
       newLocation.at(range);
@@ -103,6 +106,13 @@ public class OpenApiAnalyzer {
   }
 
   private void scanFile(InputFile inputFile) {
+    String codeDefault;
+    try {
+      codeDefault = Files.readString(inputFile.file().toPath());
+      modifyFile(inputFile.file().getAbsolutePath(),codeDefault.replaceAll("(?m)^[ \t]*\r?\n", ""));
+    } catch (IOException e) {
+      throw new IllegalStateException("Cannot read " + inputFile.file(), e);
+    }
     OpenApiFile openApiFile = SonarQubeOpenApiFile.create(inputFile);
     OpenApiVisitorContext visitorContext;
 
@@ -124,6 +134,27 @@ public class OpenApiAnalyzer {
 
     for (OpenApiCheck check : checks.all()) {
       saveIssues(inputFile, check, check.scanFileForIssues(visitorContext));
+    }
+  }
+
+  public void modifyFile(String filePath,String content)
+  {
+    var contentWithoutEmptyNewLines = content.replaceAll("(?m)^[ \t]*\r?\n", "");
+    File fileToBeModified = new File(filePath);
+    FileWriter writer = null;
+
+    try
+    {
+      //Rewriting the input text file with newContent
+      writer = new FileWriter(fileToBeModified);
+      writer.write(contentWithoutEmptyNewLines);
+      //Closing the resources
+      writer.close();
+    }
+    catch (IOException e)
+    {
+      LOG.error("Unable to write to file: " + fileToBeModified.getName() + "\"\n" + e.getMessage());
+      e.printStackTrace();
     }
   }
 

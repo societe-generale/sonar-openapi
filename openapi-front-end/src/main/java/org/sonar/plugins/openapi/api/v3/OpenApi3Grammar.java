@@ -82,7 +82,7 @@ public enum OpenApi3Grammar implements GrammarRuleKey {
     b.setRootRule(ROOT);
 
     b.rule(ROOT).is(b.object(
-      b.mandatoryProperty("openapi", b.firstOf("3.0.0", "3.0.1", "3.0.3")),
+      b.mandatoryProperty("openapi", b.firstOf("3.0.0", "3.0.1", "3.0.2", "3.0.3")),
       b.mandatoryProperty("info", INFO),
       b.property("servers", b.array(SERVER)),
       b.mandatoryProperty("paths", PATHS),
@@ -200,7 +200,7 @@ public enum OpenApi3Grammar implements GrammarRuleKey {
     b.rule(RESPONSE).is(b.object(
       b.mandatoryProperty("description", DESCRIPTION),
       b.property("headers", b.object(
-        b.patternProperty(".*", HEADER))),
+      b.patternProperty(".*", b.firstOf(REF, HEADER)))),
       b.property("content", b.object(
         b.patternProperty(".*", MEDIA_TYPE))),
       b.property("links", b.object(
@@ -238,6 +238,7 @@ public enum OpenApi3Grammar implements GrammarRuleKey {
       b.property("description", DESCRIPTION),
       b.property("required", b.bool()),
       b.property("deprecated", b.bool()),
+      b.property("defaultValue", b.string()),
       b.property("allowEmptyValue", b.bool()),
 
       b.property("style", b.firstOf("matrix", "label", "form", "simple", "spaceDelimited", "pipeDelimited", "deepObject")),
@@ -329,7 +330,7 @@ public enum OpenApi3Grammar implements GrammarRuleKey {
       b.property("not", b.firstOf(REF, SCHEMA)),
       b.property("items", b.firstOf(REF, SCHEMA)),
       b.property("properties", SCHEMA_PROPERTIES),
-      b.property("additionalProperties", b.firstOf(b.bool(false), REF, SCHEMA)),
+      b.property("additionalProperties", b.firstOf(b.bool(), REF, SCHEMA)),
       b.property("description", DESCRIPTION),
       b.property("format", b.string()),
       b.property("default", b.anything()),

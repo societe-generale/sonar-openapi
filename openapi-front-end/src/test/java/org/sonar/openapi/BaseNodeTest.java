@@ -123,7 +123,7 @@ public abstract class BaseNodeTest<T> {
   private YamlParser makeGrammarFor(GrammarRuleKey root) {
     YamlGrammarBuilder grammar = makeGrammar(modelClass);
     grammar.setRootRule(root);
-    return YamlParser.builder().withStrictValidation(true).withCharset(Charset.forName("UTF-8")).withGrammar(grammar).build();
+    return YamlParser.builder().withStrictValidation(false).withCharset(Charset.forName("UTF-8")).withGrammar(grammar).build();
   }
 
   protected final JsonNode parseResource(GrammarRuleKey root, String path) {

@@ -31,10 +31,7 @@ import org.sonar.plugins.openapi.api.PreciseIssue;
 import org.sonar.plugins.openapi.api.TestOpenApiVisitorRunner;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
@@ -85,9 +82,9 @@ public class OpenApiCheckVerifier {
     Iterator<PreciseIssue> actualIssues = getActualIssues(file, check, isV2);
     verifier.checkIssues(actualIssues);
 
-    if (actualIssues.hasNext()) {
+    if (actualIssues.hasNext()){
       PreciseIssue issue = actualIssues.next();
-      throw new AssertionError("Unexpected issue at line " + line(issue) + ": \"" + issue.primaryLocation().message() + "\"");
+      throw new AssertionError("Unexpected issue at line " + line(issue) + ": \"" + issue.primaryLocation().message() + "\" : pointer: " + issue.primaryLocation().pointer());
     }
 
   }
