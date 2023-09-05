@@ -1,0 +1,15 @@
+{
+    "title": "Provide a description for each request body.",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+      "func": "Constant\/Issue",
+      "constantCost": "2mn"
+    },
+    "tags": [
+      "must"
+    ],
+    "defaultSeverity": "Blocker",
+    "sqKey": "ProvideRequestBodyDescription"
+  }
+  

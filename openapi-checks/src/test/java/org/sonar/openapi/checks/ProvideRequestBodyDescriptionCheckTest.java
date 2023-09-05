@@ -17,34 +17,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package org.sonar.openapi.checks;
 
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Test;
+import org.sonar.openapi.OpenApiCheckVerifier;
 
-public final class CheckList {
-  public static final String REPOSITORY_KEY = "openapi";
-
-  private CheckList() {
+public class ProvideRequestBodyDescriptionCheckTest {
+      @Test
+  public void verify_in_v2() {
+    OpenApiCheckVerifier.verify("src/test/resources/checks/v2/provide-request-body-description.yaml", new ProvideRequestBodyDescriptionCheck(), true);
   }
 
-  public static List<Class> getChecks() {
-    return Arrays.asList(
-      PathMaskeradingCheck.class,
-      MediaTypeCheck.class,
-      ParsingErrorCheck.class,
-      DefaultResponseCheck.class,
-      DefinedResponseCheck.class,
-      DeclaredTagCheck.class,
-      DocumentedTagCheck.class,
-      AtMostOneBodyParameterCheck.class,
-      NoUnusedDefinitionCheck.class,
-      NoContentIn204Check.class,
-      ProvideOpSummaryCheck.class,
-      ContactValidEmailCheck.class,
-      DescriptionDiffersSummaryCheck.class,
-      InvalidOperationIdName.class,
-      ProvideRequestBodyDescriptionCheck.class
-    );
+  @Test
+  public void verify_in_v3() {
+    OpenApiCheckVerifier.verify("src/test/resources/checks/v3/provide-request-body-description.yaml", new ProvideRequestBodyDescriptionCheck(), false);
   }
 }
